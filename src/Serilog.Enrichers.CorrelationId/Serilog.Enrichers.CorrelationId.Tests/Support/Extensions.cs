@@ -2,7 +2,7 @@
 
 namespace Serilog.Tests.Support
 {
-    public static class Extensions
+    internal static class Extensions
     {
         public static object LiteralValue(this LogEventPropertyValue @this)
         {
