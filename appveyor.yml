@@ -1,0 +1,43 @@
+version: '{build}'
+image: Visual Studio 2017
+configuration: Release
+pull_requests:
+  do_not_increment_build_number: true
+
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true
+
+cache:
+  - packages -> **\packages.config
+
+install:
+  - ps: choco install gitversion.portable -pre -y
+
+assembly_info:
+  patch: true
+
+before_build:
+  - nuget restore src/Serilog.Enrichers.CorrelationId.sln
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo /b (get-item env:APPVEYOR_REPO_BRANCH).Value
+
+build:
+  project: src/Serilog.Enrichers.CorrelationId.sln
+
+after_build:
+  - cmd: nuget pack src\Serilog.Enrichers.CorrelationId\Serilog.Enrichers.CorrelationId.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+
+artifacts:
+  - path: '*.nupkg'
+    name: NuGet
+
+deploy:
+  - provider: Environment
+    name: PreRelease NuGet Feed
+    on:
+      branch: master
+  - provider: Environment
+    name: Public NuGet Feed
+    on:
+      appveyor_repo_tag: true
