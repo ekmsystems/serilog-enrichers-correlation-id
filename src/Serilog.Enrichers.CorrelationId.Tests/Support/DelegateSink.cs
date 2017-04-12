@@ -12,7 +12,8 @@ namespace Serilog.Tests.Support
 
             public DelegatingSink(Action<LogEvent> write)
             {
-                _write = write ?? throw new ArgumentNullException(nameof(write));
+                if (write == null) throw new ArgumentNullException(nameof(write));
+                _write = write;
             }
 
             public void Emit(LogEvent logEvent)
