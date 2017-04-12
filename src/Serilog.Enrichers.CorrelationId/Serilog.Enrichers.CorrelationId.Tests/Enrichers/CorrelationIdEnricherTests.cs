@@ -19,7 +19,7 @@ namespace Serilog.Tests.Enrichers
         }
 
         [Test]
-        public void CorrelationIdEnricherIsApplied()
+        public void ShouldCreateCorrelationId()
         {
             LogEvent evt = null;
             var log = new LoggerConfiguration()
