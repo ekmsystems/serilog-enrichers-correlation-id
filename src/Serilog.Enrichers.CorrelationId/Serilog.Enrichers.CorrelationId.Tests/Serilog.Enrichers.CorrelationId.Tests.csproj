@@ -47,9 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enrichers\CorrelationIdEnricherTests.cs" />
+    <Compile Include="Enrichers\CorrelationIdHeaderEnricherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\DelegateSink.cs" />
     <Compile Include="Support\Extensions.cs" />
+    <Compile Include="Support\HttpRequestHeaderExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
