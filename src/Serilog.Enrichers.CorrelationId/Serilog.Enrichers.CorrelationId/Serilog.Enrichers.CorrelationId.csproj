@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CorrelationIdLoggerConfigurationExtensions.cs" />
     <Compile Include="Enrichers\CorrelationIdEnricher.cs" />
+    <Compile Include="Enrichers\CorrelationIdHeaderEnricher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
