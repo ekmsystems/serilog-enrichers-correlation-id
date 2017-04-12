@@ -23,10 +23,10 @@ namespace Serilog.Enrichers
             logEvent.AddPropertyIfAbsent(correlationIdProperty);
         }
 
-        private static Guid GetCorrelationId()
+        private static string GetCorrelationId()
         {
-            return (Guid) (HttpContext.Current.Items[CorrelationIdItemName] ??
-                           (HttpContext.Current.Items[CorrelationIdItemName] = Guid.NewGuid()));
+            return (string) (HttpContext.Current.Items[CorrelationIdItemName] ??
+                             (HttpContext.Current.Items[CorrelationIdItemName] = Guid.NewGuid().ToString()));
         }
     }
 }

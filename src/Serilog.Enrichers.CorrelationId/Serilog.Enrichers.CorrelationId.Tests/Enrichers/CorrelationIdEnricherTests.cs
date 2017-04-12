@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Web;
 using NUnit.Framework;
 using Serilog.Events;
@@ -31,7 +30,7 @@ namespace Serilog.Tests.Enrichers
             log.Information(@"Has a CorrelationId property");
 
             Assert.NotNull(evt);
-            Assert.NotNull((Guid) evt.Properties["CorrelationId"].LiteralValue());
+            Assert.NotNull((string) evt.Properties["CorrelationId"].LiteralValue());
         }
     }
 }
