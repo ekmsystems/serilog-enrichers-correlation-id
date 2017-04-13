@@ -5,8 +5,8 @@ pull_requests:
   do_not_increment_build_number: true
 
 nuget:
-  account_feed: true
-  project_feed: true
+  account_feed: false
+  project_feed: false
   disable_publish_on_pr: true
 
 environment:
