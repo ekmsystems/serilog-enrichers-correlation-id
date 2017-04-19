@@ -10,17 +10,12 @@ namespace Serilog.Tests.Enrichers
     [Parallelizable]
     public class CorrelationIdEnricherTests
     {
-        [SetUp]
-        public void SetUp()
+        [Test]
+        public void When_CurrentHttpContextIsNotNull_Should_CreateCorrelationIdProperty()
         {
             HttpContext.Current = new HttpContext(
                 new HttpRequest("test", "https://serilog.net/", ""),
                 new HttpResponse(new StringWriter()));
-        }
-
-        [Test]
-        public void ShouldCreateCorrelationId()
-        {
             LogEvent evt = null;
             var log = new LoggerConfiguration()
                 .Enrich.WithCorrelationId()
@@ -30,7 +25,24 @@ namespace Serilog.Tests.Enrichers
             log.Information(@"Has a CorrelationId property");
 
             Assert.NotNull(evt);
-            Assert.NotNull((string) evt.Properties["CorrelationId"].LiteralValue());
+            Assert.IsTrue(evt.Properties.ContainsKey("CorrelationId"));
+            Assert.NotNull(evt.Properties["CorrelationId"].LiteralValue());
+        }
+
+        [Test]
+        public void When_CurrentHttpContextIsNotNull_ShouldNot_CreateCorrelationIdProperty()
+        {
+            HttpContext.Current = null;
+            LogEvent evt = null;
+            var log = new LoggerConfiguration()
+                .Enrich.WithCorrelationId()
+                .WriteTo.Sink(new DelegateSink.DelegatingSink(e => evt = e))
+                .CreateLogger();
+
+            log.Information(@"Does not have a CorrelationId property");
+
+            Assert.NotNull(evt);
+            Assert.IsFalse(evt.Properties.ContainsKey("CorrelationId"));
         }
     }
 }

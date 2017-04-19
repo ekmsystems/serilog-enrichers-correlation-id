@@ -10,21 +10,12 @@ namespace Serilog.Tests.Enrichers
     [Parallelizable]
     public class CorrelationIdHeaderEnricherTests
     {
-        [SetUp]
-        public void SetUp()
-        {
-            _request = new HttpRequest("test", "https://serilog.net/", "");
-            _response = new HttpResponse(new StringWriter());
-
-            HttpContext.Current = new HttpContext(_request, _response);
-        }
-
-        private HttpRequest _request;
-        private HttpResponse _response;
-
         [Test]
-        public void ShouldCreateCorrelationIdIfNotPresentInHeader()
+        public void When_CorrelationIdNotInHeader_Should_CreateCorrelationIdProperty()
         {
+            HttpContext.Current = new HttpContext(
+                new HttpRequest("test", "https://serilog.net/", ""),
+                new HttpResponse(new StringWriter()));
             LogEvent evt = null;
             var log = new LoggerConfiguration()
                 .Enrich.WithCorrelationIdHeader()
@@ -34,24 +25,44 @@ namespace Serilog.Tests.Enrichers
             log.Information(@"Has a CorrelationId property");
 
             Assert.NotNull(evt);
-            Assert.NotNull((string) evt.Properties["CorrelationId"].LiteralValue());
+            Assert.IsTrue(evt.Properties.ContainsKey("CorrelationId"));
+            Assert.NotNull(evt.Properties["CorrelationId"].LiteralValue());
         }
 
         [Test]
-        public void ShouldExtractCorrelationIdFromHeader()
+        public void When_CorrelationIdIsInHeader_Should_ExtractCorrelationIdFromHeader()
         {
+            var request = new HttpRequest("test", "https://serilog.net/", "");
+            HttpContext.Current = new HttpContext(request, new HttpResponse(new StringWriter()));
             LogEvent evt = null;
             var log = new LoggerConfiguration()
                 .Enrich.WithCorrelationIdHeader()
                 .WriteTo.Sink(new DelegateSink.DelegatingSink(e => evt = e))
                 .CreateLogger();
 
-            _request.AddHeader("x-correlation-id", "my-correlation-id");
+            request.AddHeader("x-correlation-id", "my-correlation-id");
 
             log.Information(@"Has a CorrelationId property");
 
             Assert.NotNull(evt);
-            Assert.AreEqual((string) evt.Properties["CorrelationId"].LiteralValue(), "my-correlation-id");
+            Assert.IsTrue(evt.Properties.ContainsKey("CorrelationId"));
+            Assert.AreEqual(evt.Properties["CorrelationId"].LiteralValue(), "my-correlation-id");
+        }
+
+        [Test]
+        public void When_CurrentHttpContextIsNull_ShouldNot_CreateCorrelationIdProperty()
+        {
+            HttpContext.Current = null;
+            LogEvent evt = null;
+            var log = new LoggerConfiguration()
+                .Enrich.WithCorrelationIdHeader()
+                .WriteTo.Sink(new DelegateSink.DelegatingSink(e => evt = e))
+                .CreateLogger();
+
+            log.Information(@"Does not have a CorrelationId property");
+
+            Assert.NotNull(evt);
+            Assert.IsFalse(evt.Properties.ContainsKey("CorrelationId"));
         }
     }
 }
