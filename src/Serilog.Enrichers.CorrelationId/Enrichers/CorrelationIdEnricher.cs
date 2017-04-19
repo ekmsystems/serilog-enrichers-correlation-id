@@ -12,8 +12,6 @@ namespace Serilog.Enrichers
 
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
-            if (logEvent == null) throw new ArgumentNullException(nameof(logEvent));
-
             if (HttpContext.Current == null)
                 return;
 
