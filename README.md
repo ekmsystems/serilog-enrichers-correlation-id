@@ -12,7 +12,7 @@ To use the enricher, first install the NuGet package:
 Install-Package Serilog.Enrichers.CorrelationId
 ```
 
-Then, apply the enricher to you `LoggerConfiguration`:
+Then, apply the enricher to your `LoggerConfiguration`:
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
