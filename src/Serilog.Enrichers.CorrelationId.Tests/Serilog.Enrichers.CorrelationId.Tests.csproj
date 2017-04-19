@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CorrelationIdLoggerConfigurationExtensionsTests.cs" />
     <Compile Include="Enrichers\CorrelationIdEnricherTests.cs" />
     <Compile Include="Enrichers\CorrelationIdHeaderEnricherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
