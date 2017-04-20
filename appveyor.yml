@@ -11,7 +11,7 @@ nuget:
 
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: dOwAIKu71h1c6cl3IbB8mhI0jaO01o2ftZ1ZyYHmqP2LHLYWTO4M9JA43v+kT8SH
+    secure: kCJTYSTVfLXvGcMlXZFSYPCJWFdk13d1kl0avPA/tdqO38+sh9U9RuduSp65Uhe2
 
 cache:
   - packages -> **\packages.config
@@ -49,10 +49,10 @@ artifacts:
 
 deploy:
   - provider: Environment
-    name: PreRelease NuGet Feed
+    name: EKM PreRelease NuGet Feed
     on:
       branch: master
   - provider: Environment
-    name: Public NuGet Feed
+    name: EKM Public NuGet Feed
     on:
       appveyor_repo_tag: true
