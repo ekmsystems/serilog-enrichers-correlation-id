@@ -53,6 +53,6 @@ deploy:
     on:
       branch: master
   - provider: Environment
-    name: EKM Public NuGet Feed
+    name: Public NuGet Feed
     on:
       appveyor_repo_tag: true
