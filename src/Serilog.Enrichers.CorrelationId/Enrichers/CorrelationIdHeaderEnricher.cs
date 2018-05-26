@@ -33,8 +33,11 @@ namespace Serilog.Enrichers
                 ? Guid.NewGuid().ToString()
                 : header;
 
-            HttpContext.Current.Response.AddHeader(_headerKey, correlationId);
-
+            if (!HttpContext.Current.Response.HeadersWritten)
+            {
+                HttpContext.Current.Response.AddHeader(_headerKey, correlationId);
+            }
+           
             return correlationId;
         }
     }
