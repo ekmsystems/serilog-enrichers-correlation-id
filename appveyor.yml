@@ -11,7 +11,7 @@ nuget:
 
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: kCJTYSTVfLXvGcMlXZFSYPCJWFdk13d1kl0avPA/tdqO38+sh9U9RuduSp65Uhe2
+    secure: HHMpELPjSOd22UmlhQaK14jZ3CSh98awk
 
 cache:
   - packages -> **\packages.config
