@@ -4,7 +4,7 @@ using Serilog.Core;
 using Serilog.Events;
 
 #if FULLFRAMEWORK
-using Serilog.Accessors;
+using Serilog.Enrichers.CorrelationId.Accessors;
 #endif
 
 #if NETSTANDARD
@@ -44,7 +44,7 @@ namespace Serilog.Enrichers
                 return;
 
             var correlationId = GetCorrelationId();
-            var correlationIdProperty = new LogEventProperty(CorrelationIdPropertyName, new ScalarValue(correlationId));
+            var correlationIdProperty = propertyFactory.CreateProperty(CorrelationIdPropertyName, new ScalarValue(correlationId));
 
             logEvent.AddPropertyIfAbsent(correlationIdProperty);
         }

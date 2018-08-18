@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Serilog.Enrichers.CorrelationId</AssemblyName>
-    <RootNamespace>Serilog.Enrichers.CorrelationId</RootNamespace>
+    <RootNamespace>Serilog</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

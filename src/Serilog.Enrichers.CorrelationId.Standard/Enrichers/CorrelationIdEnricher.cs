@@ -3,7 +3,7 @@ using Serilog.Core;
 using Serilog.Events;
 
 #if FULLFRAMEWORK
-using Serilog.Accessors;
+using Serilog.Enrichers.CorrelationId.Accessors;
 #endif
 
 #if NETSTANDARD
