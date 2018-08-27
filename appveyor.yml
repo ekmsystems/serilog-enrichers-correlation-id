@@ -1,5 +1,5 @@
 version: '{build}'
-image: Visual Studio 2015
+image: Visual Studio 2017
 configuration: Release
 pull_requests:
   do_not_increment_build_number: true
@@ -17,7 +17,7 @@ cache:
   - packages -> **\packages.config
 
 install:
-  - ps: choco install gitversion.portable -pre -y
+  - ps: choco install gitversion.portable --pre
 
 assembly_info:
   patch: true
@@ -30,7 +30,7 @@ build:
   project: src/Serilog.Enrichers.CorrelationId.sln
 
 after_build:
-  - cmd: nuget pack src\Serilog.Enrichers.CorrelationId\Serilog.Enrichers.CorrelationId.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+  - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
 
 after_test:
   - nuget install NUnit.ConsoleRunner -Version 3.6.1 -OutputDirectory tools
