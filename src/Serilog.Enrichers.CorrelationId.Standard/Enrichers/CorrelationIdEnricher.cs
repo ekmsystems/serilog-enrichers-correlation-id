@@ -6,7 +6,7 @@ using Serilog.Events;
 using Serilog.Enrichers.CorrelationId.Accessors;
 #endif
 
-#if NETSTANDARD
+#if NETSTANDARD || NETSTANDARD2_0
 using Microsoft.AspNetCore.Http;
 #endif
 
@@ -24,7 +24,7 @@ namespace Serilog.Enrichers
         }
 #endif
 
-#if NETSTANDARD
+#if NETSTANDARD || NETSTANDARD2_0
         public CorrelationIdEnricher() : this(new HttpContextAccessor())
         {
         }
