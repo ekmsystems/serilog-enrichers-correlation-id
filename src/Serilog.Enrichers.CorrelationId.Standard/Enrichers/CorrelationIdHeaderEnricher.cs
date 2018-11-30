@@ -27,7 +27,8 @@ namespace Serilog.Enrichers
         {
         }
 #endif
-        public CorrelationIdHeaderEnricher(string headerKey, IHttpContextAccessor contextAccessor)
+
+        internal CorrelationIdHeaderEnricher(string headerKey, IHttpContextAccessor contextAccessor)
         {
             _headerKey = headerKey;
             _contextAccessor = contextAccessor;

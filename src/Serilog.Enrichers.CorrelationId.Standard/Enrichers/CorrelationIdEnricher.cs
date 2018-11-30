@@ -26,7 +26,7 @@ namespace Serilog.Enrichers
         }
 #endif
 
-        public CorrelationIdEnricher(IHttpContextAccessor contextAccessor)
+        internal CorrelationIdEnricher(IHttpContextAccessor contextAccessor)
         {
             _contextAccessor = contextAccessor;
         }
