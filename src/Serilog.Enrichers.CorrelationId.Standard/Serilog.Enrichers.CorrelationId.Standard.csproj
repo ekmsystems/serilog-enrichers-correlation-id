@@ -1,9 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Serilog.Enrichers.CorrelationId</AssemblyName>
     <RootNamespace>Serilog</RootNamespace>
+    <AssemblyTitle>Serilog.Enrichers.CorrelationId</AssemblyTitle>
+    <Description>Enrich logs with a unique ID so you can track logs for specific requests.</Description>
+    <Company>mrstebo, ekmsystems</Company>
+    <Product>Serilog.Enrichers.CorrelationId</Product>
   </PropertyGroup>
 
   <ItemGroup>
