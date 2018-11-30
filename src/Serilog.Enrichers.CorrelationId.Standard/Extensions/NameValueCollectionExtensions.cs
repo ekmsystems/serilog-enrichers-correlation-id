@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace Serilog.Enrichers.CorrelationId.Extensions
+namespace Serilog.Extensions
 {
     public static class NameValueCollectionExtensions
     {

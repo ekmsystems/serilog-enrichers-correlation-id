@@ -3,10 +3,8 @@ using Serilog.Core;
 using Serilog.Events;
 
 #if FULLFRAMEWORK
-using Serilog.Enrichers.CorrelationId.Accessors;
-#endif
-
-#if NETSTANDARD
+using Serilog.Accessors;
+#else
 using Microsoft.AspNetCore.Http;
 #endif
 
@@ -22,9 +20,7 @@ namespace Serilog.Enrichers
         public CorrelationIdEnricher() : this(new IISPipelineHttpContextAccessor())
         {
         }
-#endif
-
-#if NETSTANDARD
+#else
         public CorrelationIdEnricher() : this(new HttpContextAccessor())
         {
         }

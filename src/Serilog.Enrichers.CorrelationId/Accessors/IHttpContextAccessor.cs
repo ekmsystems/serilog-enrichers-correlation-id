@@ -1,6 +1,7 @@
-﻿using System.Web;
+﻿
+using System.Web;
 
-namespace Serilog.Enrichers.CorrelationId.Accessors
+namespace Serilog.Accessors
 {
     public interface IHttpContextAccessor
     {

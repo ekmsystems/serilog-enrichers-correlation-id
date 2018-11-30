@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿#if FULLFRAMEWORK
+using System.Web;
+#else
+using Microsoft.AspNetCore.Http;
+#endif
 
-namespace Serilog.Enrichers.CorrelationId.Extensions
+namespace Serilog.Extensions
 {
     public static class HttpResponseExtensions
     {

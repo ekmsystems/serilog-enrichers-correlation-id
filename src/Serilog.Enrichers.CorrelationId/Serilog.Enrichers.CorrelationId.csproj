@@ -44,12 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accessors\IHttpContextAccessor.cs" />
-    <Compile Include="Accessors\IISPipelineHttpContextAccessor.cs" />
+    <Compile Include="..\Serilog.Enrichers.CorrelationId.Standard\CorrelationIdLoggerConfigurationExtensions.cs">
+      <Link>CorrelationIdLoggerConfigurationExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Serilog.Enrichers.CorrelationId.Standard\Enrichers\CorrelationIdEnricher.cs" />
     <Compile Include="..\Serilog.Enrichers.CorrelationId.Standard\Enrichers\CorrelationIdHeaderEnricher.cs" />
-    <Compile Include="..\Serilog.Enrichers.CorrelationId.Standard\CorrelationIdLoggerConfigurationExtensions.cs" />
-    <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
+    <Compile Include="..\Serilog.Enrichers.CorrelationId.Standard\Extensions\HttpResponseExtensions.cs" />
+    <Compile Include="..\Serilog.Enrichers.CorrelationId.Standard\Extensions\NameValueCollectionExtensions.cs" />
+    <Compile Include="Accessors\IHttpContextAccessor.cs" />
+    <Compile Include="Accessors\IISPipelineHttpContextAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

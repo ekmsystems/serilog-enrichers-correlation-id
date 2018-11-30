@@ -2,16 +2,13 @@
 using System.Linq;
 using Serilog.Core;
 using Serilog.Events;
+using Serilog.Extensions;
 
 #if FULLFRAMEWORK
-using Serilog.Enrichers.CorrelationId.Accessors;
-#endif
-
-#if NETSTANDARD
+using Serilog.Accessors;
+#else
 using Microsoft.AspNetCore.Http;
 #endif
-
-using Serilog.Enrichers.CorrelationId.Extensions;
 
 namespace Serilog.Enrichers
 {
@@ -25,9 +22,7 @@ namespace Serilog.Enrichers
         public CorrelationIdHeaderEnricher(string headerKey) : this(headerKey, new IISPipelineHttpContextAccessor())
         {
         }
-#endif
-
-#if NETSTANDARD
+#else
         public CorrelationIdHeaderEnricher(string headerKey) : this(headerKey, new HttpContextAccessor())
         {
         }

@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Serilog.Enrichers.CorrelationId.Accessors
+namespace Serilog.Accessors
 {
     public class IISPipelineHttpContextAccessor : IHttpContextAccessor
     {
