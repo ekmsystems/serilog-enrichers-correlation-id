@@ -18,21 +18,21 @@ branches:
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
   release:
-    regex: release
+    regex: releases?[/-]
     mode: ContinuousDelivery
     tag: beta
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
   feature:
-    regex: feature
+    regex: features?[/-]
     mode: ContinuousDelivery
     tag: useBranchName
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
   pull-request:
-    regex: pull-request
+    regex: (pull|pull\-requests|pr)[/-]
     mode: ContinuousDelivery
     tag: PullRequest
     increment: Inherit
@@ -40,21 +40,21 @@ branches:
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
     track-merge-target: false
   hotfix:
-    regex: hotfix
+    regex: hotfix(es)?[/-]
     mode: ContinuousDelivery
     tag: beta
     increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
   support:
-    regex: support
+    regex: support[/-]
     mode: ContinuousDelivery
     tag:
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
   develop:
-    regex: develop
+    regex: dev(elop)?(ment)?$
     mode: ContinuousDeployment
     tag: unstable
     increment: Minor
