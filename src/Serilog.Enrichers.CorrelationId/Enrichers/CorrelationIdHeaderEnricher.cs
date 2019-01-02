@@ -18,12 +18,7 @@ namespace Serilog.Enrichers
         private readonly string _headerKey;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public CorrelationIdHeaderEnricher(string headerKey) 
-#if NETFULL
-            : this(headerKey, new IISPipelineHttpContextAccessor())
-#else
-            : this(headerKey, new HttpContextAccessor())
-#endif
+        public CorrelationIdHeaderEnricher(string headerKey) : this(headerKey, new HttpContextAccessor())
         {
         }
         

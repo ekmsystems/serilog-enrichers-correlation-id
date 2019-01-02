@@ -16,12 +16,7 @@ namespace Serilog.Enrichers
         private static readonly string CorrelationIdItemName = $"{typeof(CorrelationIdEnricher).Name}+CorrelationId";
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public CorrelationIdEnricher()
-#if NETFULL
-            : this(new IISPipelineHttpContextAccessor())
-#else
-            : this(new HttpContextAccessor())
-#endif
+        public CorrelationIdEnricher() : this(new HttpContextAccessor())
         {
         }
 
