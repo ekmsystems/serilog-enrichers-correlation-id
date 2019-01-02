@@ -1,5 +1,4 @@
-﻿#if NETFULL
-using System.Web;
+﻿using System.Web;
 
 namespace Serilog.Enrichers.CorrelationId.Accessors
 {
@@ -8,4 +7,3 @@ namespace Serilog.Enrichers.CorrelationId.Accessors
         public HttpContext HttpContext => HttpContext.Current;
     }
 }
-#endif
