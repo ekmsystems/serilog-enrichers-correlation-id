@@ -10,6 +10,7 @@ nuget:
   disable_publish_on_pr: true
 
 environment:
+  IGNORE_NORMALISATION_GIT_HEAD_MOVE: 1
   COVERALLS_REPO_TOKEN:
     secure: TEtH3rRWsc4J1qgDS09MXTbOjZtzPUNrGIXfuEyhCAPKW29Nj5SdV2YxnKx4SQj2
 
