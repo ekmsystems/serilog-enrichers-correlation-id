@@ -17,7 +17,19 @@ cache:
   - packages -> **\packages.config
 
 install:
-  - ps: choco install gitversion.portable -y --version 3.6.5
+  # - ps: choco install gitversion.portable -y
+  - ps: >-
+      Write-Host "Installing GitVersion 3.6.5..." -ForegroundColor Cyan
+      $gvPath = "$env:SYSTEMDRIVE\Tools\GitVersion"
+      if(Test-Path $gvPath) {
+          del $gvPath -Recurse -Force
+      }
+      $tempPath = "$env:USERPROFILE\GitVersion"
+      nuget install gitversion.commandline -version 3.6.5 -excludeversion -outputdirectory $tempPath
+      [IO.Directory]::Move("$tempPath\gitversion.commandline\tools", $gvPath)
+      del $tempPath -Recurse -Force
+      Add-Path $gvPath
+      Write-Host "GitVersion 3.6.5 installed" -ForegroundColor Green
 
 assembly_info:
   patch: true
