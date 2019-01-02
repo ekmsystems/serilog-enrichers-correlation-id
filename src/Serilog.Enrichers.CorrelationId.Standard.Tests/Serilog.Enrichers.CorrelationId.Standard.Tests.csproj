@@ -9,10 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Serilog.Enrichers.CorrelationId.Standard\Serilog.Enrichers.CorrelationId.Standard.csproj" />
     </ItemGroup>
 
