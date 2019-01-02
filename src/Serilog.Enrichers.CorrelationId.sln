@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 14.0.0.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Enrichers.CorrelationId.Tests", "Serilog.Enrichers.CorrelationId.Tests\Serilog.Enrichers.CorrelationId.Tests.csproj", "{ED3FE5FA-E7B0-4AF4-A381-A13FE0B72593}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Enrichers.CorrelationId", "Serilog.Enrichers.CorrelationId\Serilog.Enrichers.CorrelationId.csproj", "{D80BD3ED-A776-40F9-A198-BAB325B73659}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ED3FE5FA-E7B0-4AF4-A381-A13FE0B72593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED3FE5FA-E7B0-4AF4-A381-A13FE0B72593}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED3FE5FA-E7B0-4AF4-A381-A13FE0B72593}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED3FE5FA-E7B0-4AF4-A381-A13FE0B72593}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D80BD3ED-A776-40F9-A198-BAB325B73659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D80BD3ED-A776-40F9-A198-BAB325B73659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D80BD3ED-A776-40F9-A198-BAB325B73659}.Release|Any CPU.ActiveCfg = Release|Any CPU
