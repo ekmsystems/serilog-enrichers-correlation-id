@@ -60,7 +60,7 @@ namespace MyWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             // ...
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
             // ...
         }
 
