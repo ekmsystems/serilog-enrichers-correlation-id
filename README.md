@@ -25,9 +25,8 @@ __IT IS CRUCIAL FOR THIS ENRICHER TO WORK TO ENABLE ACCESS TO HTTP CONTEXT__
 ```
 Startup.cs
 
-// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
-		{
+	public void ConfigureServices(IServiceCollection services)
+	{
         ..
         	services.AddHttpContextAccessor();
         ..
