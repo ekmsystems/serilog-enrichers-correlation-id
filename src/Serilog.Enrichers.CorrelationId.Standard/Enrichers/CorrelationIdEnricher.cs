@@ -3,6 +3,7 @@ using Serilog.Core;
 using Serilog.Events;
 #if FULLFRAMEWORK
 using Serilog.Enrichers.CorrelationId.Accessors;
+
 #endif
 #if NETSTANDARD
 using Microsoft.AspNetCore.Http;
@@ -18,9 +19,9 @@ namespace Serilog.Enrichers
 		private readonly IHttpContextAccessor _contextAccessor;
 
 #if FULLFRAMEWORK
-        public CorrelationIdEnricher() : this(new IISPipelineHttpContextAccessor())
-        {
-        }
+		public CorrelationIdEnricher() : this(new IISPipelineHttpContextAccessor())
+		{
+		}
 #endif
 
 #if NETSTANDARD
@@ -49,9 +50,9 @@ namespace Serilog.Enrichers
 		private string GetCorrelationId()
 		{
 			return
-				(string)
 				(_contextAccessor.HttpContext.Items[CorrelationIdItemName] ??
-				 (_contextAccessor.HttpContext.Items[CorrelationIdItemName] = Guid.NewGuid().ToString()));
+				 (_contextAccessor.HttpContext.Items[CorrelationIdItemName] = Guid.NewGuid()))
+				.ToString();
 		}
 	}
 }
