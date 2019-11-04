@@ -35,7 +35,7 @@ build_script:
 after_build:
   - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
 
-test:
+test_script:
     - cmd: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
   
 after_test:
