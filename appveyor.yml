@@ -13,8 +13,8 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: TEtH3rRWsc4J1qgDS09MXTbOjZtzPUNrGIXfuEyhCAPKW29Nj5SdV2YxnKx4SQj2
 
-cache:
-  - packages -> **\packages.config
+#cache:
+  #- packages -> **\packages.config
 
 install:
   - ps: choco install gitversion.portable -y
@@ -23,11 +23,13 @@ assembly_info:
   patch: true
 
 before_build:
-  - nuget restore src/Serilog.Enrichers.CorrelationId.sln
+  #- nuget restore src/Serilog.Enrichers.CorrelationId.sln
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo
 
-build:
-  project: src/Serilog.Enrichers.CorrelationId.sln
+# build:
+  # project: src/Serilog.Enrichers.CorrelationId.sln
+build_script:
+    - cmd: dotnet build src/Serilog.Enrichers.CorrelationId.sln
 
 after_build:
   - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
