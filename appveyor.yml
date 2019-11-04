@@ -36,7 +36,7 @@ after_build:
   - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
 
 test_script:
-    - cmd: dotnet test src\Serilog.Enrichers.CorrelationId.Tests\Serilog.Enrichers.CorrelationId.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --no-build --no-restore --test-adapter-path:. --logger:Appveyor Test
+    - cmd: dotnet test src\Serilog.Enrichers.CorrelationId.Tests\Serilog.Enrichers.CorrelationId.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --no-build --no-restore --test-adapter-path:. --logger:"Appveyor Test"
   
 after_test:
   - nuget install coveralls.net -Version 0.7.0 -OutputDirectory tools
