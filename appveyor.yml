@@ -18,19 +18,16 @@ cache:
 
 install:
   - ps: choco install gitversion.portable -y
-  - cmd: dotnet tool install --global GitVersion.Tool --version 5.1.1
 
 assembly_info:
   patch: true
 
 before_build:
-  - cmd: dotnet restore src/Serilog.Enrichers.CorrelationId.sln --verbosity m
+  - nuget restore src/Serilog.Enrichers.CorrelationId.sln
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo /b (get-item env:APPVEYOR_REPO_BRANCH).Value
 
 build:
   project: src/Serilog.Enrichers.CorrelationId.sln
-#build_script:
-    #- cmd: dotnet build src/Serilog.Enrichers.CorrelationId.sln
 
 after_build:
   - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
