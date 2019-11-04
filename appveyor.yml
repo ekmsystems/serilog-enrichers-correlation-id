@@ -1,5 +1,5 @@
 version: '{build}'
-image: Visual Studio 2017
+image: Visual Studio 2019
 configuration: Release
 pull_requests:
   do_not_increment_build_number: true
@@ -23,11 +23,13 @@ assembly_info:
   patch: true
 
 before_build:
-  - nuget restore src/Serilog.Enrichers.CorrelationId.sln
+  - cmd: dotnet restore src/Serilog.Enrichers.CorrelationId.sln --verbosity m
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo /b (get-item env:APPVEYOR_REPO_BRANCH).Value
 
-build:
-  project: src/Serilog.Enrichers.CorrelationId.sln
+#build:
+  #project: src/Serilog.Enrichers.CorrelationId.sln
+build_script:
+    - cmd: dotnet build src/Serilog.Enrichers.CorrelationId.sln
 
 after_build:
   - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
