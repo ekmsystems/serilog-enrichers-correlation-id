@@ -3,15 +3,12 @@ using System.Linq;
 using Serilog.Core;
 using Serilog.Events;
 
-#if FULLFRAMEWORK
+#if NETFULL
 using Serilog.Enrichers.CorrelationId.Accessors;
-#endif
-
-#if NETSTANDARD
+using Serilog.Enrichers.CorrelationId.Extensions;
+#else
 using Microsoft.AspNetCore.Http;
 #endif
-
-using Serilog.Enrichers.CorrelationId.Extensions;
 
 namespace Serilog.Enrichers
 {
@@ -21,18 +18,11 @@ namespace Serilog.Enrichers
         private readonly string _headerKey;
         private readonly IHttpContextAccessor _contextAccessor;
 
-#if FULLFRAMEWORK
-        public CorrelationIdHeaderEnricher(string headerKey) : this(headerKey, new IISPipelineHttpContextAccessor())
-        {
-        }
-#endif
-
-#if NETSTANDARD
         public CorrelationIdHeaderEnricher(string headerKey) : this(headerKey, new HttpContextAccessor())
         {
         }
-#endif
-        public CorrelationIdHeaderEnricher(string headerKey, IHttpContextAccessor contextAccessor)
+        
+        internal CorrelationIdHeaderEnricher(string headerKey, IHttpContextAccessor contextAccessor)
         {
             _headerKey = headerKey;
             _contextAccessor = contextAccessor;
@@ -63,7 +53,7 @@ namespace Serilog.Enrichers
                                     ? Guid.NewGuid().ToString()
                                     : header;
 
-            _contextAccessor.HttpContext.Response.AddHeader(_headerKey, correlationId);
+            _contextAccessor.HttpContext.Response.Headers.Add(_headerKey, correlationId);
 
             return correlationId;
         }

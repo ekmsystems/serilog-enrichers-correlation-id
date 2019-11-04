@@ -1,6 +1,7 @@
-﻿using System.IO;
-using System.Web;
+using FakeItEasy;
+using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
+using Serilog.Enrichers;
 using Serilog.Events;
 using Serilog.Tests.Support;
 
@@ -10,15 +11,27 @@ namespace Serilog.Tests.Enrichers
     [Parallelizable]
     public class CorrelationIdHeaderEnricherTests
     {
+        private const string HeaderKey = "x-correlation-id";
+        
+        [SetUp]
+        public void SetUp()
+        {
+            _httpContextAccessor = A.Fake<IHttpContextAccessor>();
+            _enricher = new CorrelationIdHeaderEnricher(HeaderKey, _httpContextAccessor);
+        }
+
+        private IHttpContextAccessor _httpContextAccessor;
+        private CorrelationIdHeaderEnricher _enricher;
+
         [Test]
         public void When_CorrelationIdNotInHeader_Should_CreateCorrelationIdProperty()
         {
-            HttpContext.Current = new HttpContext(
-                new HttpRequest("test", "https://serilog.net/", ""),
-                new HttpResponse(new StringWriter()));
+            A.CallTo(() => _httpContextAccessor.HttpContext)
+                .Returns(new DefaultHttpContext());
+            
             LogEvent evt = null;
             var log = new LoggerConfiguration()
-                .Enrich.WithCorrelationIdHeader()
+                .Enrich.With(_enricher)
                 .WriteTo.Sink(new DelegateSink.DelegatingSink(e => evt = e))
                 .CreateLogger();
 
@@ -32,15 +45,18 @@ namespace Serilog.Tests.Enrichers
         [Test]
         public void When_CorrelationIdIsInHeader_Should_ExtractCorrelationIdFromHeader()
         {
-            var request = new HttpRequest("test", "https://serilog.net/", "");
-            HttpContext.Current = new HttpContext(request, new HttpResponse(new StringWriter()));
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Headers[HeaderKey] = "my-correlation-id";
+
+            A.CallTo(() => _httpContextAccessor.HttpContext)
+                .Returns(httpContext);
+
             LogEvent evt = null;
             var log = new LoggerConfiguration()
-                .Enrich.WithCorrelationIdHeader()
+                .Enrich.With(_enricher)
                 .WriteTo.Sink(new DelegateSink.DelegatingSink(e => evt = e))
                 .CreateLogger();
 
-            request.AddHeader("x-correlation-id", "my-correlation-id");
 
             log.Information(@"Has a CorrelationId property");
 
@@ -52,10 +68,12 @@ namespace Serilog.Tests.Enrichers
         [Test]
         public void When_CurrentHttpContextIsNull_ShouldNot_CreateCorrelationIdProperty()
         {
-            HttpContext.Current = null;
+            A.CallTo(() => _httpContextAccessor.HttpContext)
+                .Returns(null);
+
             LogEvent evt = null;
             var log = new LoggerConfiguration()
-                .Enrich.WithCorrelationIdHeader()
+                .Enrich.With(_enricher)
                 .WriteTo.Sink(new DelegateSink.DelegatingSink(e => evt = e))
                 .CreateLogger();
 
