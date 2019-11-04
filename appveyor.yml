@@ -40,8 +40,9 @@ test_script:
   
 after_test:
   - nuget install coveralls.net -Version 0.7.0 -OutputDirectory tools
+  - ps: >- 
+        Write-Host $env:COVERALLS_REPO_TOKEN
   - ps: >-
-        Write-Host $env:COVERALLS_REPO_TOKEN;
         if($env:COVERALLS_REPO_TOKEN -eq "") {
             return
         };
