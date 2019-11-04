@@ -24,7 +24,7 @@ assembly_info:
 
 before_build:
   - nuget restore src/Serilog.Enrichers.CorrelationId.sln
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo /b (get-item env:APPVEYOR_REPO_BRANCH).Value
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
 
 build:
   project: src/Serilog.Enrichers.CorrelationId.sln
