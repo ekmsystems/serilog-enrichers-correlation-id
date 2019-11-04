@@ -36,11 +36,11 @@ after_build:
   - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
 
 test_script:
-    - cmd: dotnet test src\Serilog.Enrichers.CorrelationId.Tests\Serilog.Enrichers.CorrelationId.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --no-build --no-restore --test-adapter-path:. --logger:Appveyor
+    - cmd: dotnet test src\Serilog.Enrichers.CorrelationId.Tests\Serilog.Enrichers.CorrelationId.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --no-build --no-restore --test-adapter-path:. --logger:Appveyor --collect:"XPlat Code Coverage"
   
 after_test:
   - nuget install coveralls.net -Version 0.7.0 -OutputDirectory tools
-  - cmd: C:\projects\serilog-enrichers-correlation-id\tools\coveralls.net.0.7.0\tools\csmacnz.coveralls.exe --opencover -i C:\projects\serilog-enrichers-correlation-id\coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
+  - cmd: C:\projects\serilog-enrichers-correlation-id\tools\coveralls.net.0.7.0\tools\csmacnz.coveralls.exe --opencover -i C:\projects\serilog-enrichers-correlation-id\src\Serilog.Enrichers.CorrelationId.Tests\TestResults\**\coverage.*.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
 
 artifacts:
   - path: '*.nupkg'
