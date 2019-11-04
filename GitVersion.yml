@@ -1,5 +1,5 @@
 assembly-versioning-scheme: MajorMinorPatch
-next-version: 2.0.0
+next-version: 3.0.0
 mode: ContinuousDelivery
 tag-prefix: '[vV]'
 continuous-delivery-fallback-tag: alpha
@@ -18,45 +18,45 @@ branches:
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
   release:
-    regex: release
     mode: ContinuousDelivery
     tag: beta
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
+    regex: releases?[/-]
   feature:
-    regex: feature
     mode: ContinuousDelivery
     tag: useBranchName
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
+    regex: features?[/-]
   pull-request:
-    regex: pull-request
     mode: ContinuousDelivery
     tag: PullRequest
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
     track-merge-target: false
+    regex: (pull|pull\-requests|pr)[/-]
   hotfix:
-    regex: hotfix
     mode: ContinuousDelivery
     tag: beta
     increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
+    regex: hotfix(es)?[/-]
   support:
-    regex: support
     mode: ContinuousDelivery
     tag:
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
+    regex: support[/-]
   develop:
-    regex: develop
     mode: ContinuousDeployment
     tag: unstable
     increment: Minor
     prevent-increment-of-merged-branch-version: false
+    regex: dev(elop)?(ment)?$
     track-merge-target: true
