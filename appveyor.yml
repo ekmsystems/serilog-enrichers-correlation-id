@@ -39,7 +39,7 @@ after_test:
   - nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
   - nuget install coveralls.net -Version 0.7.0 -OutputDirectory tools
   - ps: >-
-      .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*.Tests]*" -target:"tools\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe" -targetargs:"/domain:single src\Serilog.Enrichers.CorrelationId.Tests\bin\$env:CONFIGURATION\Serilog.Enrichers.CorrelationId.Tests.dll" -output:opencoverCoverage.xml
+      .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*.Tests]*" -target:"tools\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe" -targetargs:"/domain:single src\Serilog.Enrichers.CorrelationId.Tests\bin\$env:CONFIGURATION\netcoreapp2.0\Serilog.Enrichers.CorrelationId.Tests.dll" -output:opencoverCoverage.xml
 
       $coveralls = (Resolve-Path "tools/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
 
