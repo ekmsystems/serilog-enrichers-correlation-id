@@ -18,6 +18,7 @@ environment:
 
 install:
   - ps: choco install gitversion.portable -y -r --no-progress
+  - ps: dotnet tool install --global coverlet.console
 
 assembly_info:
   patch: true
@@ -34,16 +35,14 @@ build_script:
 after_build:
   - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
 
+test:
+    - cmd: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+  
 after_test:
-  - nuget install NUnit.ConsoleRunner -Version 3.6.1 -OutputDirectory tools
-  - nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
   - nuget install coveralls.net -Version 0.7.0 -OutputDirectory tools
   - ps: >-
-      .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*.Tests]*" -target:"tools\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe" -targetargs:"/domain:single src\Serilog.Enrichers.CorrelationId.Tests\bin\$env:CONFIGURATION\netcoreapp2.0\Serilog.Enrichers.CorrelationId.Tests.dll" -output:opencoverCoverage.xml
-
       $coveralls = (Resolve-Path "tools/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
-
-      & $coveralls --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
+      & $coveralls --opencover -i coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
 
 artifacts:
   - path: '*.nupkg'
