@@ -17,7 +17,7 @@ environment:
   #- packages -> **\packages.config
 
 install:
-  - ps: choco install gitversion.portable -y
+  - ps: choco install gitversion.portable -y -r --no-progress
 
 assembly_info:
   patch: true
