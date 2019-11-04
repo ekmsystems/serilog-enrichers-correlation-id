@@ -16,40 +16,46 @@ branches:
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
-  releases:
+  release:
     mode: ContinuousDelivery
     tag: beta
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
-  features:
+    regex: releases?[/-]
+  feature:
     mode: ContinuousDelivery
     tag: useBranchName
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
-  pull-requests:
+    regex: features?[/-]
+  pull-request:
     mode: ContinuousDelivery
     tag: PullRequest
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
     track-merge-target: false
+    regex: (pull|pull\-requests|pr)[/-]
   hotfix:
     mode: ContinuousDelivery
     tag: beta
     increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
+    regex: hotfix(es)?[/-]
   support:
     mode: ContinuousDelivery
     tag:
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
+    regex: support[/-]
   develop:
     mode: ContinuousDeployment
     tag: unstable
     increment: Minor
     prevent-increment-of-merged-branch-version: false
+    regex: dev(elop)?(ment)?$
     track-merge-target: true
