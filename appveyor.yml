@@ -1,9 +1,9 @@
-version: '{build}'
+﻿version: '{build}'
 image: Visual Studio 2019
 configuration: Release
 pull_requests:
   do_not_increment_build_number: true
-
+  
 nuget:
   account_feed: false
   project_feed: false
@@ -17,22 +17,22 @@ cache:
   - packages -> **\packages.config
 
 install:
-  - ps: choco install gitversion.portable -y
-
+  - choco install gitversion.portable -pre -y
+  
 assembly_info:
   patch: true
 
 before_build:
   - cmd: dotnet restore src/Serilog.Enrichers.CorrelationId.sln --verbosity m
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo /b (get-item env:APPVEYOR_REPO_BRANCH).Value
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
 
-#build:
-  #project: src/Serilog.Enrichers.CorrelationId.sln
 build_script:
     - cmd: dotnet build src/Serilog.Enrichers.CorrelationId.sln
 
 after_build:
-  - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+  - cmd: ECHO nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+  - cmd: nuget pack src\Serilog.Enrichers.CorrelationId.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+#  - cmd: appveyor PushArtifact "<NuSpec>.%GitVersion_NuGetVersion%.nupkg"
 
 after_test:
   - nuget install NUnit.ConsoleRunner -Version 3.6.1 -OutputDirectory tools
@@ -48,7 +48,7 @@ after_test:
 artifacts:
   - path: '*.nupkg'
     name: NuGet
-
+    
 deploy:
   - provider: Environment
     name: EKM PreRelease NuGet Feed

@@ -1,8 +1,8 @@
 assembly-versioning-scheme: MajorMinorPatch
-next-version: 3.0.0
 mode: ContinuousDelivery
 tag-prefix: '[vV]'
 continuous-delivery-fallback-tag: alpha
+next-version: 3.0.0
 major-version-bump-message: '\+semver:\s?(breaking|major)'
 minor-version-bump-message: '\+semver:\s?(feature|minor)'
 patch-version-bump-message: '\+semver:\s?(fix|patch)'
@@ -11,12 +11,11 @@ build-metadata-padding: 4
 commit-message-incrementing: Enabled
 branches:
   master:
-    regex: master
     mode: ContinuousDelivery
-    tag:
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
+    regex: master
   release:
     mode: ContinuousDelivery
     tag: beta
@@ -48,7 +47,6 @@ branches:
     regex: hotfix(es)?[/-]
   support:
     mode: ContinuousDelivery
-    tag:
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
@@ -58,5 +56,8 @@ branches:
     tag: unstable
     increment: Minor
     prevent-increment-of-merged-branch-version: false
-    regex: dev(elop)?(ment)?$
     track-merge-target: true
+    regex: dev(elop)?(ment)?$
+ignore:
+  sha: []
+merge-message-formats: {}
