@@ -58,6 +58,3 @@ branches:
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     regex: dev(elop)?(ment)?$
-ignore:
-  sha: []
-merge-message-formats: {}
