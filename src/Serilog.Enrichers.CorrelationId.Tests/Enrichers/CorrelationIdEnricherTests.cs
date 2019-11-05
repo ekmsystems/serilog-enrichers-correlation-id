@@ -1,9 +1,9 @@
-using FakeItEasy;
-using Microsoft.AspNetCore.Http;
+﻿using FakeItEasy;
 using NUnit.Framework;
 using Serilog.Enrichers;
 using Serilog.Events;
 using Serilog.Tests.Support;
+using Microsoft.AspNetCore.Http;
 
 namespace Serilog.Tests.Enrichers
 {
@@ -20,7 +20,7 @@ namespace Serilog.Tests.Enrichers
 
         private IHttpContextAccessor _httpContextAccessor;
         private CorrelationIdEnricher _enricher;
-        
+
         [Test]
         public void When_CurrentHttpContextIsNotNull_Should_CreateCorrelationIdProperty()
         {
@@ -45,7 +45,7 @@ namespace Serilog.Tests.Enrichers
         {
             A.CallTo(() => _httpContextAccessor.HttpContext)
                 .Returns(null);
-            
+
             LogEvent evt = null;
             var log = new LoggerConfiguration()
                 .Enrich.With(_enricher)
