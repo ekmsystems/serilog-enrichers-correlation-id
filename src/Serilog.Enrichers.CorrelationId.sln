@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Enrichers.Correlati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Enrichers.CorrelationId.Tests", "Serilog.Enrichers.CorrelationId.Tests\Serilog.Enrichers.CorrelationId.Tests.csproj", "{1979E570-3BB8-4DF4-B056-664A924442F8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci_config", "ci_config", "{4012140B-49D7-48A8-A264-97AE936099CD}"
+ProjectSection(SolutionItems) = preProject
+	..\appveyor.yml = ..\appveyor.yml
+	..\GitVersion.yml = ..\GitVersion.yml
+	Serilog.Enrichers.CorrelationId.nuspec = Serilog.Enrichers.CorrelationId.nuspec
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
