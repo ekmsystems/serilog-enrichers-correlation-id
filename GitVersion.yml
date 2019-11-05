@@ -2,7 +2,7 @@ assembly-versioning-scheme: MajorMinorPatch
 mode: ContinuousDelivery
 tag-prefix: '[vV]'
 continuous-delivery-fallback-tag: alpha
-next-version: 3.0.0
+next-version: 2.0.0
 major-version-bump-message: '\+semver:\s?(breaking|major)'
 minor-version-bump-message: '\+semver:\s?(feature|minor)'
 patch-version-bump-message: '\+semver:\s?(fix|patch)'
