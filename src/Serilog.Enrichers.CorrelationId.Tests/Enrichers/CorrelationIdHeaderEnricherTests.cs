@@ -1,9 +1,9 @@
-using FakeItEasy;
-using Microsoft.AspNetCore.Http;
+﻿using FakeItEasy;
 using NUnit.Framework;
 using Serilog.Enrichers;
 using Serilog.Events;
 using Serilog.Tests.Support;
+using Microsoft.AspNetCore.Http;
 
 namespace Serilog.Tests.Enrichers
 {
@@ -12,7 +12,7 @@ namespace Serilog.Tests.Enrichers
     public class CorrelationIdHeaderEnricherTests
     {
         private const string HeaderKey = "x-correlation-id";
-        
+
         [SetUp]
         public void SetUp()
         {
@@ -28,7 +28,7 @@ namespace Serilog.Tests.Enrichers
         {
             A.CallTo(() => _httpContextAccessor.HttpContext)
                 .Returns(new DefaultHttpContext());
-            
+
             LogEvent evt = null;
             var log = new LoggerConfiguration()
                 .Enrich.With(_enricher)
