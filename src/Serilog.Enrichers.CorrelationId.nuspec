@@ -14,7 +14,7 @@
     <copyright></copyright>
     <tags>serilog enrichers enricher correlationid correlation id</tags>
     <dependencies>
-        <group targetFramework="net45">
+        <group targetFramework="net452">
             <dependency id="Serilog" version="2.4.0" />
         </group>
         <group targetFramework="netstandard2.0">
@@ -28,7 +28,7 @@
     </dependencies>  
   </metadata>
   <files>
-      <file src="Serilog.Enrichers.CorrelationId\bin\$target$\net45\*.dll" target="lib/net45" />
+      <file src="Serilog.Enrichers.CorrelationId\bin\$target$\net452\*.dll" target="lib/net452" />
       <file src="Serilog.Enrichers.CorrelationId\bin\$target$\netstandard2.0\*.dll" target="lib/netstandard2.0" />
       <file src="Serilog.Enrichers.CorrelationId\bin\$target$\netstandard2.1\*.dll" target="lib/netstandard2.1" />
   </files>  
