@@ -52,9 +52,10 @@ namespace Serilog.Enrichers
             var correlationId = string.IsNullOrEmpty(header)
                                     ? Guid.NewGuid().ToString()
                                     : header;
-            
+
 #if NETFULL
-            if(!_contextAccessor.HttpContext.Response.Headers.AllKeys.Contains(_headerKey))
+            if(!_contextAccessor.HttpContext.Response.HeadersWritten &&
+                !_contextAccessor.HttpContext.Response.Headers.AllKeys.Contains(_headerKey))
 #else
             if (!_contextAccessor.HttpContext.Response.Headers.ContainsKey(_headerKey))
 #endif
