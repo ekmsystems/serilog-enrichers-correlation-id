@@ -52,8 +52,15 @@ namespace Serilog.Enrichers
             var correlationId = string.IsNullOrEmpty(header)
                                     ? Guid.NewGuid().ToString()
                                     : header;
-
-            _contextAccessor.HttpContext.Response.Headers.Add(_headerKey, correlationId);
+            
+#if NETFULL
+            if(!_contextAccessor.HttpContext.Response.Headers.AllKeys.Contains(_headerKey))
+#else
+            if (!_contextAccessor.HttpContext.Response.Headers.ContainsKey(_headerKey))
+#endif
+            {
+                _contextAccessor.HttpContext.Response.Headers.Add(_headerKey, correlationId);
+            }
 
             return correlationId;
         }
