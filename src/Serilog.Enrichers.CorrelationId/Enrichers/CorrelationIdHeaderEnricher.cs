@@ -37,7 +37,7 @@ namespace Serilog.Enrichers
 
             var correlationIdProperty = new LogEventProperty(CorrelationIdPropertyName, new ScalarValue(correlationId));
 
-            logEvent.AddPropertyIfAbsent(correlationIdProperty);
+            logEvent.AddOrUpdateProperty(correlationIdProperty);
         }
 
         private string GetCorrelationId()
