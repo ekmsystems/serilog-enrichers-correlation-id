@@ -48,6 +48,10 @@ namespace Serilog.Enrichers
             {
                 header = values.FirstOrDefault();
             }
+            else if (_contextAccessor.HttpContext.Response.Headers.TryGetValue(_headerKey, out values))
+            {
+                header = values.FirstOrDefault();
+            }
 
             var correlationId = string.IsNullOrEmpty(header)
                                     ? Guid.NewGuid().ToString()
