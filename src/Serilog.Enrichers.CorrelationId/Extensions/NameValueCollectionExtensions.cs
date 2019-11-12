@@ -5,9 +5,9 @@ namespace Serilog.Enrichers.CorrelationId.Extensions
 {
     internal static class NameValueCollectionExtensions
     {
-        public static bool TryGetValue(this NameValueCollection headers, string key, out IEnumerable<string> values)
+        public static bool TryGetValue(this NameValueCollection collection, string key, out IEnumerable<string> values)
         {
-            values = headers.GetValues(key);
+            values = collection.GetValues(key);
 
             return values != null;
         }
