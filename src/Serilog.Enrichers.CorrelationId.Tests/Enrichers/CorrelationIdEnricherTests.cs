@@ -57,5 +57,28 @@ namespace Serilog.Tests.Enrichers
             Assert.NotNull(evt);
             Assert.IsFalse(evt.Properties.ContainsKey("CorrelationId"));
         }
+
+        [Test]
+        public void When_MultipleLoggingCallsMade_Should_KeepUsingCreatedCorrelationIdProperty()
+        {
+            var httpContext = new DefaultHttpContext();
+
+            A.CallTo(() => _httpContextAccessor.HttpContext)
+                .Returns(httpContext);
+
+            LogEvent evt = null;
+            var log = new LoggerConfiguration()
+                .Enrich.With(_enricher)
+                .WriteTo.Sink(new DelegateSink.DelegatingSink(e => evt = e))
+                .CreateLogger();
+
+            log.Information(@"Has a CorrelationId property");
+
+            var correlationId = evt.Properties["CorrelationId"].LiteralValue();
+
+            log.Information(@"Here is another event");
+
+            Assert.AreEqual(correlationId, evt.Properties["CorrelationId"].LiteralValue());
+        }
     }
 }
