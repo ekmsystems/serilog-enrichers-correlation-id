@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Serilog.Core;
-using Serilog.Events;
 
 #if NETFULL
 using Serilog.Enrichers.CorrelationId.Accessors;
@@ -12,61 +10,42 @@ using Microsoft.AspNetCore.Http;
 
 namespace Serilog.Enrichers
 {
-    public class CorrelationIdHeaderEnricher : ILogEventEnricher
+    public class CorrelationIdHeaderEnricher : CorrelationIdEnricherBase
     {
-        private const string CorrelationIdPropertyName = "CorrelationId";
-        private static readonly string CorrelationIdHttpContextItemName = $"{nameof(CorrelationIdHeaderEnricher)}.CorrelationId";
-
         private readonly string _headerKey;
-        private readonly IHttpContextAccessor _contextAccessor;
 
         public CorrelationIdHeaderEnricher(string headerKey) : this(headerKey, new HttpContextAccessor())
         {
         }
 
-        internal CorrelationIdHeaderEnricher(string headerKey, IHttpContextAccessor contextAccessor)
+        internal CorrelationIdHeaderEnricher(string headerKey, IHttpContextAccessor contextAccessor) : base(contextAccessor)
         {
             _headerKey = headerKey;
-            _contextAccessor = contextAccessor;
         }
 
-        public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
-        {
-            if (_contextAccessor.HttpContext == null)
-            {
-                return;
-            }
-
-            var correlationId = GetCorrelationId();
-
-            var correlationIdProperty = new LogEventProperty(CorrelationIdPropertyName, new ScalarValue(correlationId));
-
-            logEvent.AddOrUpdateProperty(correlationIdProperty);
-        }
-
-        private string GetCorrelationId()
+        protected override string GetCorrelationId()
         {
             var correlationId = Guid.NewGuid().ToString();
 
-            if (_contextAccessor.HttpContext.Request.Headers.TryGetValue(_headerKey, out var values))
+            if (ContextAccessor.HttpContext.Request.Headers.TryGetValue(_headerKey, out var values))
             {
                 correlationId = values.FirstOrDefault();
             }
-            else if (_contextAccessor.HttpContext.Response.Headers.TryGetValue(_headerKey, out values))
+            else if (ContextAccessor.HttpContext.Response.Headers.TryGetValue(_headerKey, out values))
             {
                 correlationId = values.FirstOrDefault();
             }
 #if NETFULL
-            else if (_contextAccessor.HttpContext.Items.Contains(CorrelationIdHttpContextItemName))
+            else if (ContextAccessor.HttpContext.Items.Contains(CorrelationIdItemName))
 #else
-            else if (_contextAccessor.HttpContext.Items.ContainsKey(CorrelationIdHttpContextItemName))
+            else if (ContextAccessor.HttpContext.Items.ContainsKey(CorrelationIdItemName))
 #endif
             {
-                correlationId = (string)_contextAccessor.HttpContext.Items[CorrelationIdHttpContextItemName];
+                correlationId = (string)ContextAccessor.HttpContext.Items[CorrelationIdItemName];
             }
             else
             {
-                _contextAccessor.HttpContext.Items[CorrelationIdHttpContextItemName] = correlationId;
+                ContextAccessor.HttpContext.Items[CorrelationIdItemName] = correlationId;
             }
 
             return correlationId;
