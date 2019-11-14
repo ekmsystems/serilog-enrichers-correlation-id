@@ -13,7 +13,8 @@ namespace Serilog.Enrichers
     public class CorrelationIdEnricher : ILogEventEnricher
     {
         private const string CorrelationIdPropertyName = "CorrelationId";
-        private static readonly string CorrelationIdItemName = $"{typeof(CorrelationIdEnricher).Name}+CorrelationId";
+        private static readonly string CorrelationIdItemName = $"{nameof(CorrelationIdEnricher)}+CorrelationId";
+
         private readonly IHttpContextAccessor _contextAccessor;
 
         public CorrelationIdEnricher() : this(new HttpContextAccessor())
@@ -28,7 +29,9 @@ namespace Serilog.Enrichers
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
             if (_contextAccessor.HttpContext == null)
+            {
                 return;
+            }
 
             var correlationId = GetCorrelationId();
 

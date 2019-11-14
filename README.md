@@ -76,3 +76,22 @@ namespace MyWebApp
 ```
 
 You need to register the `IHttpContextAccessor` singleton so that the enricher has access to the requests `HttpContext` so that it can attach the correlation ID to the request/response.
+
+## ASP.NET Core - CorrelationIdHeaderSupplier Middleware
+
+Additionally you can use `CorrelationIdHeaderSupplierMiddleware` in your application by calling `UseCorrelationIdHeaderSupplier(headerKey)`. It is responsible for:
+
+* rewrite `x-correlation-id` header from `Request` to `Response`
+* create `x-correlation-id` header and supply `Response` when it is not provided in the request
+
+```cs
+using Serilog.Enrichers.CorrelationId.Middlewares;
+
+public void ConfigureServices(IServiceCollection services)
+{
+    // ...
+    app.UseCorrelationIdHeaderSupplier();
+    app.UseMvc();
+    // ...
+}
+```

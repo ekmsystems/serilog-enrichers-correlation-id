@@ -15,6 +15,8 @@ namespace Serilog.Enrichers
     public class CorrelationIdHeaderEnricher : ILogEventEnricher
     {
         private const string CorrelationIdPropertyName = "CorrelationId";
+        private static readonly string CorrelationIdHttpContextItemName = $"{nameof(CorrelationIdHeaderEnricher)}.CorrelationId";
+
         private readonly string _headerKey;
         private readonly IHttpContextAccessor _contextAccessor;
 
@@ -31,7 +33,9 @@ namespace Serilog.Enrichers
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
             if (_contextAccessor.HttpContext == null)
+            {
                 return;
+            }
 
             var correlationId = GetCorrelationId();
 
@@ -42,29 +46,27 @@ namespace Serilog.Enrichers
 
         private string GetCorrelationId()
         {
-            var header = string.Empty;
+            var correlationId = Guid.NewGuid().ToString();
 
             if (_contextAccessor.HttpContext.Request.Headers.TryGetValue(_headerKey, out var values))
             {
-                header = values.FirstOrDefault();
+                correlationId = values.FirstOrDefault();
             }
             else if (_contextAccessor.HttpContext.Response.Headers.TryGetValue(_headerKey, out values))
             {
-                header = values.FirstOrDefault();
+                correlationId = values.FirstOrDefault();
             }
-
-            var correlationId = string.IsNullOrEmpty(header)
-                                    ? Guid.NewGuid().ToString()
-                                    : header;
-
 #if NETFULL
-            if(!_contextAccessor.HttpContext.Response.HeadersWritten &&
-                !_contextAccessor.HttpContext.Response.Headers.AllKeys.Contains(_headerKey))
+            else if (_contextAccessor.HttpContext.Items.Contains(CorrelationIdHttpContextItemName))
 #else
-            if (!_contextAccessor.HttpContext.Response.Headers.ContainsKey(_headerKey))
+            else if (_contextAccessor.HttpContext.Items.ContainsKey(CorrelationIdHttpContextItemName))
 #endif
             {
-                _contextAccessor.HttpContext.Response.Headers.Add(_headerKey, correlationId);
+                correlationId = (string)_contextAccessor.HttpContext.Items[CorrelationIdHttpContextItemName];
+            }
+            else
+            {
+                _contextAccessor.HttpContext.Items[CorrelationIdHttpContextItemName] = correlationId;
             }
 
             return correlationId;
