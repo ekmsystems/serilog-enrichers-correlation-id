@@ -20,11 +20,9 @@ namespace Serilog.Enrichers.CorrelationId.Middlewares
 
         public Task Invoke(HttpContext httpContext)
         {
-            string correlationId = Guid.NewGuid().ToString();
-            if (httpContext.Request.Headers.TryGetValue(_headerKey, out var values))
-            {
-                correlationId = values.First();
-            }
+            string correlationId = httpContext.Request.Headers.TryGetValue(_headerKey, out var values)
+                ? values.First()
+                : Guid.NewGuid().ToString();
             if (!httpContext.Response.Headers.ContainsKey(_headerKey))
             {
                 httpContext.Response.Headers.Add(_headerKey, correlationId);
