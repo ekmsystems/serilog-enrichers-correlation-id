@@ -1,4 +1,4 @@
-﻿using Serilog.Core;
+using Serilog.Core;
 using Serilog.Events;
 
 #if NETFULL
@@ -11,8 +11,7 @@ namespace Serilog.Enrichers
 {
     public abstract class CorrelationIdEnricherBase: ILogEventEnricher
     {
-        protected const string CorrelationIdPropertyName = "CorrelationId";
-        protected static readonly string CorrelationIdItemName = $"{nameof(CorrelationIdEnricherBase)}+CorrelationId";
+        private const string _correlationIdPropertyName = "CorrelationId";
 
         protected readonly IHttpContextAccessor ContextAccessor;
 
@@ -32,7 +31,7 @@ namespace Serilog.Enrichers
 
             var correlationId = GetCorrelationId();
 
-            var correlationIdProperty = new LogEventProperty(CorrelationIdPropertyName, new ScalarValue(correlationId));
+            var correlationIdProperty = new LogEventProperty(_correlationIdPropertyName, new ScalarValue(correlationId));
 
             logEvent.AddOrUpdateProperty(correlationIdProperty);
         }

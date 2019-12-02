@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 #if NETFULL
@@ -36,16 +36,16 @@ namespace Serilog.Enrichers
                 correlationId = values.FirstOrDefault();
             }
 #if NETFULL
-            else if (ContextAccessor.HttpContext.Items.Contains(CorrelationIdItemName))
+            else if (ContextAccessor.HttpContext.Items.Contains(CorrelationIdConstants.CorrelationIdItemName))
 #else
-            else if (ContextAccessor.HttpContext.Items.ContainsKey(CorrelationIdItemName))
+            else if (ContextAccessor.HttpContext.Items.ContainsKey(CorrelationIdConstants.CorrelationIdItemName))
 #endif
             {
-                correlationId = (string)ContextAccessor.HttpContext.Items[CorrelationIdItemName];
+                correlationId = (string)ContextAccessor.HttpContext.Items[CorrelationIdConstants.CorrelationIdItemName];
             }
             else
             {
-                ContextAccessor.HttpContext.Items[CorrelationIdItemName] = correlationId;
+                ContextAccessor.HttpContext.Items[CorrelationIdConstants.CorrelationIdItemName] = correlationId;
             }
 
             return correlationId;

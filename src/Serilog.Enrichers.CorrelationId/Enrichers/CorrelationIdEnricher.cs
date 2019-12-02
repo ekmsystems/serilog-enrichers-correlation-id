@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 #if NETFULL
 using Serilog.Enrichers.CorrelationId.Accessors;
@@ -20,8 +20,8 @@ namespace Serilog.Enrichers
 
         protected override string GetCorrelationId()
         {
-            return (string)(ContextAccessor.HttpContext.Items[CorrelationIdItemName] ??
-                             (ContextAccessor.HttpContext.Items[CorrelationIdItemName] = Guid.NewGuid().ToString()));
+            return (string)(ContextAccessor.HttpContext.Items[CorrelationIdConstants.CorrelationIdItemName] ??
+                             (ContextAccessor.HttpContext.Items[CorrelationIdConstants.CorrelationIdItemName] = Guid.NewGuid().ToString()));
         }
     }
 }
