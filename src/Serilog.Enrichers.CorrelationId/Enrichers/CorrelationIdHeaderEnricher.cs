@@ -58,10 +58,10 @@ namespace Serilog.Enrichers
                                     : header;
 
 #if NETFULL
-            if(!_contextAccessor.HttpContext.Response.HeadersWritten &&
+            if (!_contextAccessor.HttpContext.Response.HeadersWritten &&
                 !_contextAccessor.HttpContext.Response.Headers.AllKeys.Contains(_headerKey))
 #else
-            if(!_contextAccessor.HttpContext.Response.Headers.IsReadOnly &&
+            if (!_contextAccessor.HttpContext.Response.Headers.IsReadOnly &&
                 !_contextAccessor.HttpContext.Response.Headers.ContainsKey(_headerKey))
 #endif
             {
