@@ -30,6 +30,15 @@ The package includes:
  * `WithCorrelationId()` - adds a `CorrelationId` to track logs for the current web request.
  * `WithCorrelationIdHeader(headerKey)` - adds a `CorrelationId` extracted from the current request header (or created if one does not exist).
 
+### Use custom correlation ID generator
+
+By default the correlation ID is a GUID Value (example: `37546029-2816-4aee-b8c9-a38c1d25ad18`).
+
+But it's possible to generate custom values by implementing `ICorrelationIdGenerator` and configure the enricher.
+
+* `WithCorrelationId(new CorrelationIdGenerator())`
+* `WithCorrelationIdHeader(headerKey, new CorrelationIdGenerator())`
+
 ## Installing into an ASP.NET Core Web Application
 
 This is what your `Startup` class should contain in order for this enricher to work as expected:

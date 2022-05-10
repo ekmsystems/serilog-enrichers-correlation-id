@@ -17,7 +17,7 @@ namespace Serilog.Tests.Enrichers
         public void SetUp()
         {
             _httpContextAccessor = A.Fake<IHttpContextAccessor>();
-            _enricher = new CorrelationIdHeaderEnricher(HeaderKey, _httpContextAccessor);
+            _enricher = new CorrelationIdHeaderEnricher(HeaderKey, new DefaultCorrelationIdGenerator(), _httpContextAccessor);
         }
 
         private IHttpContextAccessor _httpContextAccessor;
@@ -104,6 +104,28 @@ namespace Serilog.Tests.Enrichers
             log.Information(@"Here is another event");
 
             Assert.AreEqual(correlationId, evt.Properties["CorrelationId"].LiteralValue());
+        }
+        
+        [Test]
+        public void When_UsingCustomCorrelationIdGenerator_Should_CreateExpectedCorrelationId()
+        {
+            var enricher = new CorrelationIdHeaderEnricher(HeaderKey, new CustomCorrelationIdGenerator(), _httpContextAccessor);
+            
+            A.CallTo(() => _httpContextAccessor.HttpContext)
+                .Returns(new DefaultHttpContext());
+
+            LogEvent evt = null;
+            var log = new LoggerConfiguration()
+                .Enrich.With(enricher)
+                .WriteTo.Sink(new DelegateSink.DelegatingSink(e => evt = e))
+                .CreateLogger();
+
+            log.Information(@"Has a CorrelationId property");
+
+            Assert.NotNull(evt);
+            Assert.IsTrue(evt.Properties.ContainsKey("CorrelationId"));
+            Assert.NotNull(evt.Properties["CorrelationId"].LiteralValue());
+            Assert.AreEqual(evt.Properties["CorrelationId"].LiteralValue(), CustomCorrelationIdGenerator.CustomCorrelationIdValue);
         }
     }
 }

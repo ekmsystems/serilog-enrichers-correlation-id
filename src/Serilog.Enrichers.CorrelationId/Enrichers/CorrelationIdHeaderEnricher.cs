@@ -17,15 +17,21 @@ namespace Serilog.Enrichers
         private const string CorrelationIdPropertyName = "CorrelationId";
         private readonly string _headerKey;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly ICorrelationIdGenerator _correlationIdGenerator;
 
-        public CorrelationIdHeaderEnricher(string headerKey) : this(headerKey, new HttpContextAccessor())
+        public CorrelationIdHeaderEnricher(string headerKey, ICorrelationIdGenerator correlationIdGenerator)
+            : this(headerKey, correlationIdGenerator, new HttpContextAccessor())
         {
         }
 
-        internal CorrelationIdHeaderEnricher(string headerKey, IHttpContextAccessor contextAccessor)
+        internal CorrelationIdHeaderEnricher(
+            string headerKey,
+            ICorrelationIdGenerator correlationIdGenerator,
+            IHttpContextAccessor contextAccessor)
         {
             _headerKey = headerKey;
             _contextAccessor = contextAccessor;
+            _correlationIdGenerator = correlationIdGenerator;
         }
 
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
@@ -54,7 +60,7 @@ namespace Serilog.Enrichers
             }
 
             var correlationId = string.IsNullOrEmpty(header)
-                                    ? Guid.NewGuid().ToString()
+                                    ? this._correlationIdGenerator.Generate()
                                     : header;
 
 #if NETFULL
