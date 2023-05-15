@@ -1,3 +1,5 @@
+**This project is no longer being maintained.**
+
 # Serilog.Enrichers.CorrelationId
 
 Enriches Serilog events with a correlation ID for tracking requests.
